@@ -88,12 +88,14 @@ void loop_collapse() {
 }
 
 void reduction() {
-    long long sum = -1;
-#pragma omp parallel for reduction(max : sum)
-    for (int i = 0; i < 1000; ++i)
+    long long sum = 0;
+    long long mul = 1;
+#pragma omp parallel for reduction(+ : sum) reduction(* : mul)
+    for (int i = 1; i <= 10; ++i) {
         sum += i;
-    printf("%lld\n", sum);
-    // printf("%lld\n", (0ll + 999) * 1000 / 2);
+        mul *= i;
+    }
+    printf("%lld %lld\n", sum, mul);
 }
 
 int main() {
